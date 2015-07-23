@@ -7,6 +7,8 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonObject;
 
+import java.util.List;
+
 /**
  * Created by Gabo on 2015.07.23..
  */

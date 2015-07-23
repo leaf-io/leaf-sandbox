@@ -2,19 +2,26 @@ package io.leaf.petstore.impl;
 
 import io.leaf.petstore.api.PetStoreService;
 import io.leaf.petstore.api.ProxyHelper;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.example.util.ExampleRunner;
+import io.leaf.service.Service;
+import io.leaf.service.ServiceManager;
+import io.vertx.core.*;
 
 /**
  * Created by Gabo on 2015.07.23..
  */
-public class PetStoreServiceVerticle  extends AbstractVerticle {
+public class PetStoreServiceVerticle  extends Service {
 
     PetStoreService service;
 
     // Convenience method so you can run it in your IDE
     public static void main(String[] args) {
-        ExampleRunner.runJavaExample("io.leaf.petstore.impl", PetStoreServiceVerticle.class, true);
+        ServiceManager serviceManager = new ServiceManager();
+        serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
+            @Override
+            public void handle(AsyncResult<String> stringAsyncResult) {
+
+            }
+        }, true);
     }
 
     @Override
