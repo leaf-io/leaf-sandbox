@@ -1,0 +1,3 @@
+petstore-service-api/target/*
+petstore-service-client/target/*
+petstore-service-impl/target/*
