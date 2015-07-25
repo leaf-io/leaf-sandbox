@@ -26,9 +26,12 @@ public class PetStoreServiceImpl implements PetStoreService {
     public void addPet(Pet pet, Handler<AsyncResult<JsonObject>> resultHandler) {
         System.out.println("Processing pet: "+pet.getName());
         petList.add(pet);
+        System.out.println("Processed pet: "+petList.size());
+        resultHandler.handle(Future.succeededFuture(new JsonObject()));
     }
 
     public void getPetCount(Handler<AsyncResult<Integer>> resultHandler) {
+        System.out.println("Pet count: "+petList.size());
         resultHandler.handle(Future.succeededFuture(petList.size()));
     }
 }

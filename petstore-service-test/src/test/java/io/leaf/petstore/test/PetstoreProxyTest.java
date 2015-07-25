@@ -2,6 +2,7 @@ package io.leaf.petstore.test;
 
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
+import io.leaf.petstore.api.Pet;
 import io.leaf.petstore.api.PetStoreService;
 import io.leaf.petstore.api.PetStoreServiceProxy;
 import io.leaf.petstore.api.ProxyHelper;
@@ -13,6 +14,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.Is;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +34,11 @@ public class PetstoreProxyTest {
     @Before
     public void init() {
         serviceManager = new ServiceManager();
+    }
+
+    @After
+    public void destroy() {
+        serviceManager.close();
     }
 
     @Test
@@ -64,11 +71,24 @@ public class PetstoreProxyTest {
                     public void handle(AsyncResult<String> stringAsyncResult) {
                         PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, serviceManager.getVertx(), "io.leaf.petstore");
 
-                        service.getPetCount((res) -> {
-                            long petCount = res.result();
-                            Assert.assertEquals(0, petCount);
+                        service.getPetCount((count0Result) -> {
+                            long pet0Count = count0Result.result();
+                            Assert.assertEquals(0, pet0Count);
 
-                            finished.set(true);
+                            Pet myPet = new Pet();
+                            myPet.setName("Bradley");
+                            service.addPet(myPet, (addPetResult) -> {
+                                if (addPetResult.succeeded()) {
+                                    service.getPetCount((count1Result) -> {
+                                        long pet1Count = count1Result.result();
+                                        Assert.assertEquals(1, pet1Count);
+
+                                        finished.set(true);
+                                    });
+                                }
+                            });
+
+
                         });
                     }
                 }, true);

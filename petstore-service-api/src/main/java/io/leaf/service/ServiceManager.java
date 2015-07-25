@@ -46,4 +46,8 @@ public class ServiceManager {
             e.printStackTrace();
         }
     }
+
+    public void close() {
+        vertx.close();
+    }
 }
