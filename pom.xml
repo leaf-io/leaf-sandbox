@@ -15,6 +15,7 @@
         <module>petstore-service-api</module>
         <module>petstore-service-client</module>
         <module>petstore-service-impl</module>
+        <module>petstore-service-test</module>
     </modules>
 
     <build>

@@ -4,9 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.leaf</groupId>
-    <artifactId>petstore-test</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>io.leaf</groupId>
+        <artifactId>sandbox</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>petstore-service-test</artifactId>
 
     <dependencies>
         <dependency>

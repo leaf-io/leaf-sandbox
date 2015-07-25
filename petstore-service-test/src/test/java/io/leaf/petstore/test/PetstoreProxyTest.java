@@ -1,6 +1,7 @@
 package io.leaf.petstore.test;
 
 import com.jayway.awaitility.Awaitility;
+import com.jayway.awaitility.Duration;
 import io.leaf.petstore.api.PetStoreServiceProxy;
 import io.leaf.petstore.api.ProxyHelper;
 import io.leaf.petstore.client.PetStoreServiceClientVerticle;
@@ -47,7 +48,7 @@ public class PetstoreProxyTest {
             }
         }, true);
 
-        Awaitility.await().untilTrue(loaded);
+        Awaitility.waitAtMost(Duration.ONE_MINUTE).await().untilTrue(loaded);
 
         Assert.assertThat(loaded.get(), Is.is(true));
     }
