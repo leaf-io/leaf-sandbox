@@ -12,4 +12,6 @@ import java.util.List;
 public interface PetStoreService {
 
     void addPet(Pet pet, Handler<AsyncResult<JsonObject>> resultHandler);
+
+    void getPetCount(Handler<AsyncResult<Integer>> resultHandler);
 }

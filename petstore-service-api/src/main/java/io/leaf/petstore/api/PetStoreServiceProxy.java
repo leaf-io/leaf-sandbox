@@ -23,14 +23,27 @@ public class PetStoreServiceProxy implements PetStoreService {
     }
 
     public void addPet(Pet pet, Handler<AsyncResult<JsonObject>> resultHandler) {
-
         JsonObject _json = new JsonObject();
         _json.put("document", pet.getJsonObject());
         DeliveryOptions _deliveryOptions = new DeliveryOptions();
         _deliveryOptions.addHeader("action", "addPet");
         _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
             if (res.failed()) {
-                resultHandler.handle(Future.failedFuture(res.cause()));
+                resultHandler.handle(Future.<JsonObject>failedFuture(res.cause()));
+            } else {
+                resultHandler.handle(Future.succeededFuture(res.result().body()));
+            }
+        });
+    }
+
+    @Override
+    public void getPetCount(Handler<AsyncResult<Integer>> resultHandler) {
+        JsonObject _json = new JsonObject();
+        DeliveryOptions _deliveryOptions = new DeliveryOptions();
+        _deliveryOptions.addHeader("action", "getPetCount");
+        _vertx.eventBus().<Integer>send(_address, _json, _deliveryOptions, res -> {
+            if (res.failed()) {
+                resultHandler.handle(Future.<Integer>failedFuture(res.cause()));
             } else {
                 resultHandler.handle(Future.succeededFuture(res.result().body()));
             }

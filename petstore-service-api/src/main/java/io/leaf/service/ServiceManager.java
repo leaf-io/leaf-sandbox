@@ -10,6 +10,12 @@ import io.vertx.core.*;
  */
 public class ServiceManager {
 
+    private Vertx vertx;
+
+    public Vertx getVertx() {
+        return vertx;
+    }
+
     public void startService(Class<? extends Service> serviceType, Handler<AsyncResult<String>> handler) {
         startService(serviceType, handler, false);
     }
@@ -19,18 +25,25 @@ public class ServiceManager {
     }
 
     public void startService(Class<? extends Service> serviceType, Handler<AsyncResult<String>> handler, boolean clustered, DeploymentOptions deploymentOptions) {
-
+        if (vertx == null) {
             Vertx.clusteredVertx(
                     new VertxOptions().setClustered(clustered),
                     vertxAsyncResult -> {
-                        try {
-                            vertxAsyncResult.result().deployVerticle(serviceType.newInstance(), handler);
-                        }catch(Exception e) {
-                            e.printStackTrace();
-                        }
+                        this.vertx = vertxAsyncResult.result();
+                        deployVerticle(serviceType, handler);
                     }
             );
-
+        }
+        else {
+            deployVerticle(serviceType, handler);
+        }
     }
 
+    protected void deployVerticle(Class<? extends Service> serviceType, Handler<AsyncResult<String>> handler) {
+        try {
+            vertx.deployVerticle(serviceType.newInstance(), handler);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

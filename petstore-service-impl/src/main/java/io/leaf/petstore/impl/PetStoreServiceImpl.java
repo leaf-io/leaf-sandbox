@@ -27,4 +27,8 @@ public class PetStoreServiceImpl implements PetStoreService {
         System.out.println("Processing pet: "+pet.getName());
         petList.add(pet);
     }
+
+    public void getPetCount(Handler<AsyncResult<Integer>> resultHandler) {
+        resultHandler.handle(Future.succeededFuture(petList.size()));
+    }
 }

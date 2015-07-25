@@ -38,7 +38,11 @@ public class PetStoreServiceProxyHandler extends ProxyHandler {
             case "addPet": {
                 Pet pet = new Pet();
                 pet.setJsonObject(document);
-                service.addPet(pet, createHandler(msg));
+                service.addPet(pet, this.<JsonObject>createHandler(msg));
+                break;
+            }
+            case "getPetCount": {
+                service.getPetCount(this.<Integer>createHandler(msg));
                 break;
             }
             default: {

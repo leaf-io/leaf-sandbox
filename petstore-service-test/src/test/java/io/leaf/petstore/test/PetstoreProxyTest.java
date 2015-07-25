@@ -2,6 +2,7 @@ package io.leaf.petstore.test;
 
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
+import io.leaf.petstore.api.PetStoreService;
 import io.leaf.petstore.api.PetStoreServiceProxy;
 import io.leaf.petstore.api.ProxyHelper;
 import io.leaf.petstore.client.PetStoreServiceClientVerticle;
@@ -34,7 +35,7 @@ public class PetstoreProxyTest {
     }
 
     @Test
-    public void proxyTest() {
+    public void basicTest() {
         final AtomicBoolean loaded = new AtomicBoolean(false);
 
         serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
@@ -51,6 +52,34 @@ public class PetstoreProxyTest {
         Awaitility.waitAtMost(Duration.ONE_MINUTE).await().untilTrue(loaded);
 
         Assert.assertThat(loaded.get(), Is.is(true));
+    }
+
+    @Test
+    public void addTest() {
+        final AtomicBoolean finished = new AtomicBoolean(false);
+
+        serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
+            public void handle(AsyncResult<String> stringAsyncResult) {
+                serviceManager.startService(PetStoreServiceClientVerticle.class, new Handler<AsyncResult<String>>() {
+                    public void handle(AsyncResult<String> stringAsyncResult) {
+                        PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, serviceManager.getVertx(), "io.leaf.petstore");
+
+                        service.getPetCount((res) -> {
+                            long petCount = res.result();
+                            Assert.assertEquals(0, petCount);
+
+                            finished.set(true);
+                        });
+                    }
+                }, true);
+            }
+        }, true);
+
+        Awaitility.waitAtMost(Duration.ONE_MINUTE).await().untilTrue(finished);
+
+
+
+        Assert.assertThat(finished.get(), Is.is(true));
     }
 
 }
