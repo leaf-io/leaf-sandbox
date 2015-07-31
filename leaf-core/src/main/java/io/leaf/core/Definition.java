@@ -3,37 +3,15 @@ package io.leaf.core;
 /**
  * Created by Gabo on 2015.07.31..
  */
-public class Definition {
+public interface Definition {
 
-    protected String groupId;
-    protected String artifactId;
-    protected String version;
+    public String getGroupId();
 
-    public String getGroupId() {
-        return groupId;
-    }
+    public String getArtifactId();
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
+    public String getVersion();
 
-    public String getArtifactId() {
-        return artifactId;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getKey() {
-        return groupId+":"+artifactId+":"+version;
+    public default String getKey() {
+        return getGroupId()+":"+getArtifactId()+":"+getVersion();
     }
 }

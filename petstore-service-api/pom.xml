@@ -31,5 +31,11 @@
             <artifactId>vertx-service-proxy</artifactId>
             <version>3.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.leaf</groupId>
+            <artifactId>leaf-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>

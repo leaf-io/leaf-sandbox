@@ -1,23 +1,23 @@
 package io.leaf.petstore.client;
 
+import io.leaf.core.Definition;
+import io.leaf.core.node.AbstractLeafNodeVerticle;
+import io.leaf.core.node.LeafNodeManager;
 import io.leaf.petstore.api.Pet;
 import io.leaf.petstore.api.PetStoreService;
 import io.leaf.petstore.api.ProxyHelper;
-import io.leaf.service.Service;
-import io.leaf.service.ServiceManager;
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
 
 /**
  * Created by Gabo on 2015.07.23..
  */
-public class PetStoreServiceClientVerticle extends Service {
+public class PetStoreServiceClientVerticle extends AbstractLeafNodeVerticle {
 
     // Convenience method so you can run it in your IDE
     public static void main(String[] args) {
-        ServiceManager serviceManager = new ServiceManager();
+        LeafNodeManager serviceManager = new LeafNodeManager();
         serviceManager.startService(PetStoreServiceClientVerticle.class, new Handler<AsyncResult<String>>() {
             @Override
             public void handle(AsyncResult<String> stringAsyncResult) {
@@ -27,6 +27,16 @@ public class PetStoreServiceClientVerticle extends Service {
     }
 
     private PetStoreService service;
+
+    @Override
+    public Class getServiceClass() {
+        return null;
+    }
+
+    @Override
+    public Definition getServiceImpl() {
+        return null;
+    }
 
     @Override
     public void start() throws Exception {

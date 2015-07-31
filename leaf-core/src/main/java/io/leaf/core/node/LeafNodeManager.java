@@ -1,4 +1,4 @@
-package io.leaf.service;
+package io.leaf.core.node;
 
 import io.vertx.core.*;
 
@@ -8,7 +8,7 @@ import io.vertx.core.*;
  *
  * @author Andras Toth
  */
-public class ServiceManager {
+public class LeafNodeManager {
 
     private Vertx vertx;
 
@@ -16,15 +16,15 @@ public class ServiceManager {
         return vertx;
     }
 
-    public void startService(Class<? extends Service> serviceType, Handler<AsyncResult<String>> handler) {
+    public void startService(Class<? extends AbstractLeafNodeVerticle> serviceType, Handler<AsyncResult<String>> handler) {
         startService(serviceType, handler, false);
     }
 
-    public void startService(Class<? extends Service> serviceType, Handler<AsyncResult<String>> handler, boolean clustered) {
+    public void startService(Class<? extends AbstractLeafNodeVerticle> serviceType, Handler<AsyncResult<String>> handler, boolean clustered) {
         startService(serviceType, handler, false, null);
     }
 
-    public void startService(Class<? extends Service> serviceType, Handler<AsyncResult<String>> handler, boolean clustered, DeploymentOptions deploymentOptions) {
+    public void startService(Class<? extends AbstractLeafNodeVerticle> serviceType, Handler<AsyncResult<String>> handler, boolean clustered, DeploymentOptions deploymentOptions) {
         if (vertx == null) {
             Vertx.clusteredVertx(
                     new VertxOptions().setClustered(clustered),
@@ -39,7 +39,7 @@ public class ServiceManager {
         }
     }
 
-    protected void deployVerticle(Class<? extends Service> serviceType, Handler<AsyncResult<String>> handler) {
+    protected void deployVerticle(Class<? extends AbstractLeafNodeVerticle> serviceType, Handler<AsyncResult<String>> handler) {
         try {
             vertx.deployVerticle(serviceType.newInstance(), handler);
         }catch(Exception e) {

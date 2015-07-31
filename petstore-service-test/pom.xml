@@ -41,6 +41,11 @@
             <artifactId>petstore-service-impl</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.leaf</groupId>
+            <artifactId>leaf-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 

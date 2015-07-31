@@ -2,17 +2,15 @@ package io.leaf.petstore.test;
 
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
+import io.leaf.core.LeafCoreVerticle;
+import io.leaf.core.node.LeafNodeManager;
 import io.leaf.petstore.api.Pet;
 import io.leaf.petstore.api.PetStoreService;
-import io.leaf.petstore.api.PetStoreServiceProxy;
 import io.leaf.petstore.api.ProxyHelper;
 import io.leaf.petstore.client.PetStoreServiceClientVerticle;
 import io.leaf.petstore.impl.PetStoreServiceVerticle;
-import io.leaf.service.ServiceInitializationException;
-import io.leaf.service.ServiceManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import org.hamcrest.Matcher;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Assert;
@@ -29,11 +27,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class PetstoreProxyTest {
 
-    private ServiceManager serviceManager;
+    private LeafNodeManager serviceManager;
 
     @Before
     public void init() {
-        serviceManager = new ServiceManager();
+        serviceManager = new LeafNodeManager();
     }
 
     @After
@@ -65,11 +63,11 @@ public class PetstoreProxyTest {
     public void addTest() {
         final AtomicBoolean finished = new AtomicBoolean(false);
 
-        serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
+        serviceManager.startService(LeafCoreVerticle.class, new Handler<AsyncResult<String>>() {
             public void handle(AsyncResult<String> stringAsyncResult) {
-                serviceManager.startService(PetStoreServiceClientVerticle.class, new Handler<AsyncResult<String>>() {
+                serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
                     public void handle(AsyncResult<String> stringAsyncResult) {
-                        PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, serviceManager.getVertx(), "io.leaf.petstore");
+                        PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, serviceManager.getVertx(), "io.leaf:petstore-service-api:1.0.0");
 
                         service.getPetCount((count0Result) -> {
                             long pet0Count = count0Result.result();
