@@ -43,9 +43,9 @@ public class PetstoreProxyTest {
     public void basicTest() {
         final AtomicBoolean loaded = new AtomicBoolean(false);
 
-        serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
+        serviceManager.startService(LeafCoreVerticle.class, new Handler<AsyncResult<String>>() {
             public void handle(AsyncResult<String> stringAsyncResult) {
-                    serviceManager.startService(PetStoreServiceClientVerticle.class, new Handler<AsyncResult<String>>() {
+                    serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
                         public void handle(AsyncResult<String> stringAsyncResult) {
                             //  TODO test call then set to true
                             loaded.set(true);
@@ -67,6 +67,14 @@ public class PetstoreProxyTest {
             public void handle(AsyncResult<String> stringAsyncResult) {
                 serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
                     public void handle(AsyncResult<String> stringAsyncResult) {
+                        try {
+                            Thread.sleep(1500);
+                        }
+                        catch(Exception ex) {
+
+                        }
+
+
                         PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, serviceManager.getVertx(), "io.leaf:petstore-service-api:1.0.0");
 
                         service.getPetCount((count0Result) -> {

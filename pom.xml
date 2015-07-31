@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>leaf-core</module>
         <module>petstore-service-api</module>
         <module>petstore-service-client</module>
         <module>petstore-service-impl</module>

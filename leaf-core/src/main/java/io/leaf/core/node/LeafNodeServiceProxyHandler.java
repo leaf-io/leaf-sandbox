@@ -1,5 +1,6 @@
-package io.leaf.petstore.api;
+package io.leaf.core.node;
 
+import io.leaf.core.manager.LeafManagerService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -11,12 +12,12 @@ import io.vertx.serviceproxy.ProxyHandler;
 /**
  * Created by Gabo on 2015.07.23..
  */
-public class PetStoreServiceProxyHandler extends ProxyHandler {
+public class LeafNodeServiceProxyHandler extends ProxyHandler {
 
     private final Vertx vertx;
-    private final PetStoreService service;
+    private final LeafNodeService service;
 
-    public PetStoreServiceProxyHandler(Vertx vertx, PetStoreService service) {
+    public LeafNodeServiceProxyHandler(Vertx vertx, LeafNodeService service) {
         this.vertx = vertx;
         this.service = service;
     }
@@ -33,16 +34,10 @@ public class PetStoreServiceProxyHandler extends ProxyHandler {
         if (command == null) {
             throw new IllegalStateException("command not specified");
         }
-        JsonObject document = (io.vertx.core.json.JsonObject)json.getValue("document");
+        JsonObject document = (JsonObject)json.getValue("document");
         switch (command) {
-            case "addPet": {
-                Pet pet = new Pet();
-                pet.setJsonObject(document);
-                service.addPet(pet, this.<JsonObject>createHandler(msg));
-                break;
-            }
-            case "getPetCount": {
-                service.getPetCount(this.<Integer>createHandler(msg));
+            case "startNode" : {
+                service.startNode(this.<JsonObject>createHandler(msg));
                 break;
             }
             default: {

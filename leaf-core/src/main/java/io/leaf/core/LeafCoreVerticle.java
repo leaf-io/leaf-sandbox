@@ -30,7 +30,7 @@ public class LeafCoreVerticle  extends AbstractLeafNodeVerticle {
     @Override
     public void start() throws Exception {
         // Create the server implementation
-        LeafManagerServiceImpl service = new LeafManagerServiceImpl();
+        LeafManagerServiceImpl service = new LeafManagerServiceImpl(vertx);
 
         // Register the handler
         ProxyHelper.registerService(LeafManagerService.class, vertx, service, LeafManagerService.CORE_TOPIC);

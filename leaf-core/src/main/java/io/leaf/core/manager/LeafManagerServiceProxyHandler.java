@@ -29,19 +29,19 @@ public class LeafManagerServiceProxyHandler extends ProxyHandler {
 
     public void handle(Message<JsonObject> msg) {
         JsonObject json = msg.body();
-        String action = msg.headers().get("action");
-        if (action == null) {
-            throw new IllegalStateException("action not specified");
+        String command = msg.headers().get("command");
+        if (command == null) {
+            throw new IllegalStateException("command not specified");
         }
         JsonObject document = (JsonObject)json.getValue("document");
-        switch (action) {
+        switch (command) {
             case "registerNode" : {
                 String managementTopic = document.getString("managementTopic");
                 service.registerNode(managementTopic,  this.<JsonObject>createHandler(msg));
                 break;
             }
             default: {
-                throw new IllegalStateException("Invalid action: " + action);
+                throw new IllegalStateException("Invalid command: " + command);
             }
         }
     }

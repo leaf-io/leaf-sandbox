@@ -1,5 +1,6 @@
-package io.leaf.core.manager;
+package io.leaf.core.node;
 
+import io.leaf.core.manager.LeafManagerService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -10,25 +11,24 @@ import io.vertx.core.json.JsonObject;
 /**
  * Created by Gabo on 2015.07.23..
  */
-public class LeafManagerServiceProxy implements LeafManagerService {
+public class LeafNodeServiceProxy implements LeafNodeService {
 
     private Vertx _vertx;
     private String _address;
 
-    public LeafManagerServiceProxy(Vertx vertx, String address) {
+    public LeafNodeServiceProxy(Vertx vertx, String address) {
         this._vertx = vertx;
         this._address = address;
     }
 
 
     @Override
-    public void registerNode(String managementTopic, Handler<AsyncResult<JsonObject>> resultHandler) {
+    public void startNode(Handler<AsyncResult<JsonObject>> resultHandler) {
         JsonObject _json = new JsonObject();
         JsonObject document = new JsonObject();
-        document.put("managementTopic", managementTopic);
         _json.put("document", document);
         DeliveryOptions _deliveryOptions = new DeliveryOptions();
-        _deliveryOptions.addHeader("command", "registerNode");
+        _deliveryOptions.addHeader("command", "startNode");
         _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
             if (res.failed()) {
                 resultHandler.handle(Future.<JsonObject>failedFuture(res.cause()));
