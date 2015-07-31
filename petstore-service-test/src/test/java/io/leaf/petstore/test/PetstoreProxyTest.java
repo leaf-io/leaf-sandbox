@@ -3,11 +3,10 @@ package io.leaf.petstore.test;
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
 import io.leaf.core.LeafCoreVerticle;
-import io.leaf.core.node.LeafNodeManager;
+import io.leaf.core.node.LeafVerticleManager;
 import io.leaf.petstore.api.Pet;
 import io.leaf.petstore.api.PetStoreService;
 import io.leaf.petstore.api.ProxyHelper;
-import io.leaf.petstore.client.PetStoreServiceClientVerticle;
 import io.leaf.petstore.impl.PetStoreServiceVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -27,30 +26,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class PetstoreProxyTest {
 
-    private LeafNodeManager serviceManager;
+    private LeafVerticleManager leafVerticleManager;
 
     @Before
     public void init() {
-        serviceManager = new LeafNodeManager();
+        leafVerticleManager = new LeafVerticleManager();
     }
 
     @After
     public void destroy() {
-        serviceManager.close();
+        leafVerticleManager.close();
     }
 
     @Test
     public void basicTest() {
         final AtomicBoolean loaded = new AtomicBoolean(false);
 
-        serviceManager.startService(LeafCoreVerticle.class, new Handler<AsyncResult<String>>() {
+        leafVerticleManager.startService(LeafCoreVerticle.class, new Handler<AsyncResult<String>>() {
             public void handle(AsyncResult<String> stringAsyncResult) {
-                    serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
-                        public void handle(AsyncResult<String> stringAsyncResult) {
-                            //  TODO test call then set to true
-                            loaded.set(true);
-                        }
-                    }, true);
+                leafVerticleManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
+                    public void handle(AsyncResult<String> stringAsyncResult) {
+                        //  TODO test call then set to true
+                        loaded.set(true);
+                    }
+                }, true);
             }
         }, true);
 
@@ -63,19 +62,18 @@ public class PetstoreProxyTest {
     public void addTest() {
         final AtomicBoolean finished = new AtomicBoolean(false);
 
-        serviceManager.startService(LeafCoreVerticle.class, new Handler<AsyncResult<String>>() {
+        leafVerticleManager.startService(LeafCoreVerticle.class, new Handler<AsyncResult<String>>() {
             public void handle(AsyncResult<String> stringAsyncResult) {
-                serviceManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
+                leafVerticleManager.startService(PetStoreServiceVerticle.class, new Handler<AsyncResult<String>>() {
                     public void handle(AsyncResult<String> stringAsyncResult) {
                         try {
                             Thread.sleep(1500);
-                        }
-                        catch(Exception ex) {
+                        } catch (Exception ex) {
 
                         }
 
 
-                        PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, serviceManager.getVertx(), "io.leaf:petstore-service-api:1.0.0");
+                        PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, leafVerticleManager.getVertx(), "io.leaf:petstore-service-api:1.0.0");
 
                         service.getPetCount((count0Result) -> {
                             long pet0Count = count0Result.result();

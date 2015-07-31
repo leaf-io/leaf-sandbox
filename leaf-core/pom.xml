@@ -24,12 +24,6 @@
 
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>examples-utils</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.vertx</groupId>
             <artifactId>vertx-hazelcast</artifactId>
             <version>3.0.0</version>
         </dependency>

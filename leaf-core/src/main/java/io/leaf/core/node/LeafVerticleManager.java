@@ -8,7 +8,7 @@ import io.vertx.core.*;
  *
  * @author Andras Toth
  */
-public class LeafNodeManager {
+public class LeafVerticleManager {
 
     private Vertx vertx;
 
