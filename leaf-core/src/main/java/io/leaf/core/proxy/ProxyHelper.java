@@ -31,6 +31,9 @@ import java.lang.reflect.Constructor;
  */
 public class ProxyHelper {
 
+    public final static String COMMAND = "command";
+    public final static String DOCUMENT = "document";
+
     public static <T> T createProxy(Class<T> clazz, Vertx vertx, String address) {
         String proxyClassName = clazz.getName() + "Proxy";
         Class<?> proxyClass = loadClass(proxyClassName, clazz);

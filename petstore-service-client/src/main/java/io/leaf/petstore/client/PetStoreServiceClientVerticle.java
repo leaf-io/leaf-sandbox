@@ -3,9 +3,9 @@ package io.leaf.petstore.client;
 import io.leaf.core.Definition;
 import io.leaf.core.node.AbstractLeafNodeVerticle;
 import io.leaf.core.node.LeafVerticleManager;
+import io.leaf.core.proxy.ProxyHelper;
 import io.leaf.petstore.api.Pet;
 import io.leaf.petstore.api.PetStoreService;
-import io.leaf.petstore.api.ProxyHelper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -39,7 +39,7 @@ public class PetStoreServiceClientVerticle extends AbstractLeafNodeVerticle {
 
     @Override
     public void start() throws Exception {
-        service = ProxyHelper.createProxy(PetStoreService.class, vertx, "io.leaf.petstore");
+        service = ProxyHelper.createProxy(PetStoreService.class, vertx, "io.leaf:petstore-service-api:1.0.0");
     }
 
     public void addPet() {

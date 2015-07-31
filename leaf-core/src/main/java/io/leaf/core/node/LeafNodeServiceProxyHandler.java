@@ -1,6 +1,7 @@
 package io.leaf.core.node;
 
 import io.leaf.core.manager.LeafManagerService;
+import io.leaf.core.proxy.ProxyHelper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -30,11 +31,11 @@ public class LeafNodeServiceProxyHandler extends ProxyHandler {
 
     public void handle(Message<JsonObject> msg) {
         JsonObject json = msg.body();
-        String command = msg.headers().get("command");
+        String command = msg.headers().get(ProxyHelper.COMMAND);
         if (command == null) {
             throw new IllegalStateException("command not specified");
         }
-        JsonObject document = (JsonObject)json.getValue("document");
+        JsonObject document = (JsonObject)json.getValue(ProxyHelper.DOCUMENT);
         switch (command) {
             case "startNode" : {
                 service.startNode(this.<JsonObject>createHandler(msg));

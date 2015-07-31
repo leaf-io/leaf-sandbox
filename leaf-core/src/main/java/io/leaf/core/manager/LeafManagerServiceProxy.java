@@ -1,5 +1,6 @@
 package io.leaf.core.manager;
 
+import io.leaf.core.proxy.ProxyHelper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -26,9 +27,9 @@ public class LeafManagerServiceProxy implements LeafManagerService {
         JsonObject _json = new JsonObject();
         JsonObject document = new JsonObject();
         document.put("managementTopic", managementTopic);
-        _json.put("document", document);
+        _json.put(ProxyHelper.DOCUMENT, document);
         DeliveryOptions _deliveryOptions = new DeliveryOptions();
-        _deliveryOptions.addHeader("command", "registerNode");
+        _deliveryOptions.addHeader(ProxyHelper.COMMAND, "registerNode");
         _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
             if (res.failed()) {
                 resultHandler.handle(Future.<JsonObject>failedFuture(res.cause()));

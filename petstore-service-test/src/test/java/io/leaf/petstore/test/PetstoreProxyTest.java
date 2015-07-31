@@ -4,9 +4,9 @@ import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
 import io.leaf.core.LeafCoreVerticle;
 import io.leaf.core.node.LeafVerticleManager;
+import io.leaf.core.proxy.ProxyHelper;
 import io.leaf.petstore.api.Pet;
 import io.leaf.petstore.api.PetStoreService;
-import io.leaf.petstore.api.ProxyHelper;
 import io.leaf.petstore.impl.PetStoreServiceVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -71,7 +71,6 @@ public class PetstoreProxyTest {
                         } catch (Exception ex) {
 
                         }
-
 
                         PetStoreService service = ProxyHelper.createProxy(PetStoreService.class, leafVerticleManager.getVertx(), "io.leaf:petstore-service-api:1.0.0");
 

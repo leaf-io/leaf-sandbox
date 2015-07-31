@@ -19,9 +19,7 @@ public class LeafCoreVerticle  extends AbstractLeafNodeVerticle {
         leafVerticleManager.startService(LeafCoreVerticle.class, new Handler<AsyncResult<String>>() {
             public void handle(AsyncResult<String> startResult) {
                 if (startResult.succeeded()) {
-                    System.out.println("*********************");
-                    System.out.println("* Leaf CORE started *");
-                    System.out.println("*********************");
+                    System.out.println("leaf.io core started successfully");
                 }
                 else {
                     System.out.println("Some serious fuckup happened :(");
@@ -42,6 +40,17 @@ public class LeafCoreVerticle  extends AbstractLeafNodeVerticle {
 
     @Override
     public void start() throws Exception {
+        System.out.println("                       //");
+        System.out.println("                     ./  ");
+        System.out.println("            ########/    ");
+        System.out.println("       ############///   ");
+        System.out.println("     ##########/#/////   ");
+        System.out.println("   ####  leaf.io  ////   ");
+        System.out.println("   ######////////////    ");
+        System.out.println("  #####//#/////////      ");
+        System.out.println("  ##//////////           ");
+        System.out.println(" #///                    ");
+
         // Create the server implementation
         LeafManagerServiceImpl service = new LeafManagerServiceImpl(vertx);
 
