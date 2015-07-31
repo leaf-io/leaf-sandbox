@@ -38,4 +38,21 @@ public class LeafManagerServiceProxy implements LeafManagerService {
             }
         });
     }
+
+    @Override
+    public void getInterfaceEntry(String interfaceKey, Handler<AsyncResult<JsonObject>> resultHandler) {
+        JsonObject _json = new JsonObject();
+        JsonObject document = new JsonObject();
+        document.put("interfaceKey", interfaceKey);
+        _json.put(ProxyHelper.DOCUMENT, document);
+        DeliveryOptions _deliveryOptions = new DeliveryOptions();
+        _deliveryOptions.addHeader(ProxyHelper.COMMAND, "getInterfaceEntry");
+        _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
+            if (res.failed()) {
+                resultHandler.handle(Future.<JsonObject>failedFuture(res.cause()));
+            } else {
+                resultHandler.handle(Future.succeededFuture(res.result().body()));
+            }
+        });
+    }
 }

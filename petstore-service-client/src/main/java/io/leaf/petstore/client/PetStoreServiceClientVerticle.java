@@ -1,6 +1,6 @@
 package io.leaf.petstore.client;
 
-import io.leaf.core.Definition;
+import io.leaf.core.data.Definition;
 import io.leaf.core.node.AbstractLeafNodeVerticle;
 import io.leaf.core.node.LeafVerticleManager;
 import io.leaf.core.proxy.ProxyHelper;

@@ -1,4 +1,4 @@
-package io.leaf.core;
+package io.leaf.core.data;
 
 /**
  * Created by Gabo on 2015.07.31..

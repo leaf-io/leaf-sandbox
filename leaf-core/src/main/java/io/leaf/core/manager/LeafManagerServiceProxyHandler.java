@@ -41,6 +41,11 @@ public class LeafManagerServiceProxyHandler extends ProxyHandler {
                 service.registerNode(managementTopic,  this.<JsonObject>createHandler(msg));
                 break;
             }
+            case "getInterfaceEntry" : {
+                String interfaceKey = document.getString("interfaceKey");
+                service.getInterfaceEntry(interfaceKey, this.<JsonObject>createHandler(msg));
+                break;
+            }
             default: {
                 throw new IllegalStateException("Invalid command: " + command);
             }

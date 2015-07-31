@@ -1,35 +1,35 @@
-package io.leaf.core;
+package io.leaf.core.data;
 
 /**
  * Created by Gabo on 2015.07.31..
  */
-public class DefinitionEntry implements Definition {
+public class DefinitionEntry extends JsonDTO implements Definition {
 
     protected String groupId;
     protected String artifactId;
     protected String version;
     
     public String getGroupId() {
-        return groupId;
+        return jsonObject.getString("groupId");
     }
 
     public void setGroupId(String groupId) {
-        this.groupId = groupId;
+        jsonObject.put("groupId", groupId);
     }
 
     public String getArtifactId() {
-        return artifactId;
+        return jsonObject.getString("artifactId");
     }
 
     public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
+        jsonObject.put("artifactId", artifactId);
     }
 
     public String getVersion() {
-        return version;
+        return jsonObject.getString("version");
     }
 
     public void setVersion(String version) {
-        this.version = version;
+        jsonObject.put("version", version);
     }
 }

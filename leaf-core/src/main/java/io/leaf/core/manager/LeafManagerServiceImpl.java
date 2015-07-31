@@ -40,6 +40,7 @@ public class LeafManagerServiceImpl implements LeafManagerService {
         ie.setGroupId("io.leaf");
         ie.setArtifactId("petstore-service-api");
         ie.setVersion("1.0.0");
+        ie.setTopic(ie.getKey());
         interfaceRegistry.put(ie.getKey(), ie);
     }
 
@@ -73,6 +74,13 @@ public class LeafManagerServiceImpl implements LeafManagerService {
 
         resultHandler.handle(Future.succeededFuture(new JsonObject()));
         System.out.println("Node registration end");
+    }
+
+    @Override
+    public void getInterfaceEntry(String interfaceKey, Handler<AsyncResult<JsonObject>> resultHandler) {
+        InterfaceEntry ie = interfaceRegistry.get(interfaceKey);
+
+        resultHandler.handle(Future.succeededFuture(ie.getJsonObject()));
     }
 
     public void doStartNodes() {

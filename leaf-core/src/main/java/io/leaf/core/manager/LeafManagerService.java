@@ -13,4 +13,5 @@ public interface LeafManagerService {
 
     public void registerNode(String managementTopic, Handler<AsyncResult<JsonObject>> resultHandler);
 
+    public void getInterfaceEntry(String interfaceKey, Handler<AsyncResult<JsonObject>> resultHandler);
 }

@@ -1,5 +1,6 @@
 package io.leaf.core;
 
+import io.leaf.core.data.Definition;
 import io.leaf.core.manager.LeafManagerService;
 import io.leaf.core.manager.LeafManagerServiceImpl;
 import io.leaf.core.node.AbstractLeafNodeVerticle;
