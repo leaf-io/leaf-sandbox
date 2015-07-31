@@ -1,5 +1,6 @@
 package io.leaf.petstore.impl;
 
+import io.leaf.core.manager.LeafManagerService;
 import io.leaf.petstore.api.PetStoreService;
 import io.leaf.petstore.api.ProxyHelper;
 import io.leaf.service.Service;
@@ -32,5 +33,12 @@ public class PetStoreServiceVerticle  extends Service {
         ProxyHelper.registerService(PetStoreService.class, vertx, service, "io.leaf.petstore");
 
         System.out.println("PetStoreService implementation node started..");
+
+        String managementAddress = "io.leaf.petstore.management";
+        LeafManagerService leafManager = ProxyHelper.createProxy(LeafManagerService.class, vertx, LeafManagerService.CORE_TOPIC);
+
+        leafManager.registerNode(managementAddress, (registerRes) -> {
+            System.out.println("Registration success!");
+        });
     }
 }
